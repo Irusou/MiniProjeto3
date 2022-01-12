@@ -1,4 +1,4 @@
-
+package miniprojeto3;
 /**
  * Classe representante do vendedor.
  *
@@ -113,7 +113,7 @@ public class Agent
     }
 
     //metodo para marcar como vendido um imovel
-    //verifica se o imovel recebido é igual a algum dos do agente
+    //verifica se o imovel recebido ï¿½ igual a algum dos do agente
     public void markAsSold(Listing listing){
         sales++;
         if(listing1 == null && listing2 == null){

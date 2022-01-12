@@ -1,4 +1,4 @@
-
+package miniprojeto3;
 /**
  * Classe representante do imovel.
  *

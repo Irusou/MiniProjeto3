@@ -1,3 +1,4 @@
+package miniprojeto3;
 /**
  * Classe representante da agencia
  *

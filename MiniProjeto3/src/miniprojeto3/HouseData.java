@@ -1,4 +1,4 @@
-
+package miniprojeto3;
 /**
  * Classe representante dos detalhes de um imovel.
  *
