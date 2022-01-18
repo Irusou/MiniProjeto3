@@ -123,4 +123,17 @@ public class Listing
         System.out.println("Quintal: " + yard);
         System.out.println("");
     }
+    
+    @Override
+    public String toString(){
+        String yard;
+        if(houseData.isHasYard()){
+            yard = "tem.";
+        }else{
+            yard = "nao tem.";
+        }
+        return "#" + listingIdentifier + " preco: " + price + "$\n"+
+                address.getAddress() + "," + address.getPostalCode() + "," + address.getCity()+"\n"+
+                "Quintal: " + yard;
+    }
 }

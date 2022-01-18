@@ -11,45 +11,32 @@ public class Agent
     private int sales;//vendas
     private double earning;//ganhos
     private static final short COMISSION = 2%100;//comissao do agente
-    private Listing listing1;//imovel1
-    private Listing listing2;//imovel2
+    private Listing[] listing;
+    private static final short MAX_LISTINGS = 10;//nr de imoveis por agente
+    private int numberOfListings;
     
     //construtor de agentes
     public Agent(String newName)
     {
         name = newName;
         sales = 0;
-        listing1 = null;
-        listing2 = null;
+        listing = new Listing[MAX_LISTINGS];
+        numberOfListings = 0;
         earning = 0.0;
     }
     
-    //selector do imovel1
-    public Listing getListing1(){
-        if(listing1 != null){
-            return listing1;
-        }else{
-            return null;
+    /**
+     * Metodo para verificar um imovel da lista
+     * @param index posicao do imovel na lista
+     * @return imovel na posicao do index ou null caso nao exista
+     */
+    public Listing getListing(int index){
+        for(int i = 0;i<numberOfListings;i++){
+            if(i==index){
+                return listing[index];
+            }
         }
-    }
-    
-    //selector do imovel2
-    public Listing getListing2(){
-        if(listing2 != null){
-            return listing2;
-        }else{
-            return null;
-        }
-    }
-    
-    //modificador do imovel1
-    public void setListing1(Listing listing){
-        listing1 = listing;
-    }
-    
-    //modificador do imovel2
-    public void setListing2(Listing listing){
-        listing2 = listing;
+        return null;
     }
     
     //selector do nome do agente
@@ -67,7 +54,9 @@ public class Agent
         return earning;
     }
     
-    //display das informacoes do agente
+    /**
+     * Metodo display permite ver as informacoes do agente
+     */
     public void display(){
         System.out.println("Nome: "+name);
         System.out.println("Imoveis: ");
@@ -76,59 +65,61 @@ public class Agent
         System.out.println("Imoveis vendidos: "+sales);
     }
     
-    //display das informacoes relativas aos imoveis do agente
-    public void displayListings(){
-       if(listing1 == null && listing2 == null){
-           System.out.println("Sem imoveis.");
-       }else if(listing1 != null && listing2 == null){
-           listing1.display();
-       }else if(listing2 != null && listing1 == null){
-           listing2.display();
-       }else{
-           listing1.display();
-           listing2.display();
-       }
-    }
-    
-    //verificador de se um agente pode receber imoveis
-    public boolean isAcceptingListings(){
-        if((listing1 != null) && (listing2 != null)){
-            return false;
-        }else{
-            return true;
+    private void displayListings(){
+        for(int i = 0; i<numberOfListings; i++){
+            listing[i].display();
         }
     }
     
-    //metodo para atribuir imoveis ao agente
+    /**
+     * Metodo isAcceptingListings verifica se um agente pode receber imoveis
+     * @return isAccepting true se pode, false caso contrario
+     */
+    public boolean isAcceptingListings(){
+        boolean isAccepting = false;
+        if(numberOfListings<MAX_LISTINGS){
+            isAccepting = true;
+        }
+        return isAccepting;
+    }
+    
+    /**
+     * Metodo addListing permite adicionar um imovel a lista do vendedor
+     * 
+     * @param listing objeto do tipo Listing que pretende adicionar
+     */
     public void addListing(Listing listing){
         if(isAcceptingListings()){
-            if(listing1 == null){
-                listing1 = listing;
-            }else{
-                listing2 = listing;
+            for(int i = 0; i<numberOfListings; i++){
+                if(!this.listing[i].equals(listing)){
+                    this.listing[numberOfListings++] = listing;
+                }
             }
         }else{
             System.out.println("Lista de imoveis cheia.");
         }
     }
 
-    //metodo para marcar como vendido um imovel
-    //verifica se o imovel recebido � igual a algum dos do agente
+    /**
+     * Metodo markAsSold permite ao vendedor realizar uma venda
+     * 
+     * @param listing objeto do tipo Listing que pretende vender
+     */
     public void markAsSold(Listing listing){
         sales++;
-        if(listing1 == null && listing2 == null){
-            System.out.println("Sem imoveis para venda.");
-        }else{
-            if(listing1 == listing){
-                earning += ((listing1.getPrice() * COMISSION)/100);
-                listing1 = null;  
-            }else if(listing2 == listing){
-                earning +=  ((listing2.getPrice() * COMISSION)/100);
-                listing2 = null;
+        for(int i = 0; i<numberOfListings; i++){
+            if(this.listing[i].equals(listing)){
+                earning += (this.listing[i].getPrice() * COMISSION)/100;
+                this.listing[i] = null;
             }else{
                 System.out.println("Imovel nao encontrado.");
             }
         }
     }
+    
+    
+    @Override
+    public String toString(){
+        return "Nome: "+getName()+"\n";
+    }
 }
-
