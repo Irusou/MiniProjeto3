@@ -70,6 +70,15 @@ public class Listings
        return null; 
    }
    
+   public Listing displayListingByNumber(int number){
+       for(int i = 0; i<listings.size();i++){
+           if(listings.get(i).getIdentifier() == number){
+               return listings.get(i);
+           }
+       }
+       return null;
+   }
+   
    private boolean isValidListing(Listing listing){
        boolean isValid = false;
        for(int i = 0; i<listings.size();i++){

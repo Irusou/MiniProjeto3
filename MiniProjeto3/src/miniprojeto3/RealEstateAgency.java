@@ -15,6 +15,7 @@ public class RealEstateAgency
     private static final short COMISSION = 3%100; //comissao da agencia
     private double earning; //ganhos da agencia
     private ArrayList<Agent> agents; //lista de agentes
+    private Sell sells;
     
     //construtor da agencia
     public RealEstateAgency(String name)
@@ -23,6 +24,7 @@ public class RealEstateAgency
         listings = new Listings();
         agents = new ArrayList<>();
         earning = 0.0;
+        sells = null;
     }
     
     //metodo para adicionar agentes
@@ -68,9 +70,19 @@ public class RealEstateAgency
     //adiciona os ganhos
     //retira o imovel do agente e adiciona os ganhos ao agente
     public void sellListing(Listing listing){
+        //sell.makeSell(agents, listings);
         listings.removeListing(listing);
+        for(int i =0;i<agents.size();i++){
+            if(agents.get(i).getListing(i).equals(listing)){
+                sells.makeSell(agents.get(i), listing);
+            }
+        }
     }
    
+    public void displaySells(){
+        sells.toString();
+    }
+    
     //verifica se existem imoveis numa cidade
     public void displayLocatedAt(String city){
         listings.displayLocatedAt(city).display();
@@ -89,6 +101,34 @@ public class RealEstateAgency
     //devolve a lista de imoveis
     public void displayListings(){
         listings.displayListings();
+    }
+    
+    /**
+     * displayListings devolve um imovel pelo seu numero
+     * @param number numero do imovel
+     */
+    public void displayListing(int number){
+        listings.displayListingByNumber(number);
+    }
+    
+    public void getAgentsSorted(){
+        boolean sorted = false;
+        Agent temp = null;
+        do{
+            sorted = false;
+            for(int i = 0; i<agents.size();i++){
+               if(agents.get(i).getEarnings()>agents.get(i+1).getEarnings()){
+                   temp = agents.get(i);
+                   agents.set(i, agents.get(i+1));
+                   agents.set(i+1, temp);
+                   sorted = true;
+               }
+            }
+        }while(sorted = true);
+        
+        for(Agent a : agents){
+            a.display();
+        }
     }
     
     //devolve a informacao da agencia
